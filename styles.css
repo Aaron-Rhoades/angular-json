@@ -1,0 +1,9 @@
+/*style stuff here*/
+.btn {
+  background: #eee;
+  border: 1px solid #aaa;
+}
+.btn:hover {
+  background: #ccc;
+  cursor: pointer;
+}

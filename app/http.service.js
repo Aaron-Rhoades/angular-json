@@ -9,27 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var http_service_1 = require('./http.service');
-var AppComponent = (function () {
-    function AppComponent(httpService) {
-        this.httpService = httpService;
+var http_1 = require('@angular/http');
+require('rxjs/add/operator/toPromise');
+require('./rxjs-extensions');
+var HttpService = (function () {
+    function HttpService(http) {
+        this.http = http;
+        this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.testUrl = 'https://jsonplaceholder.typicode.com/comments'; // URL to web api
     }
-    AppComponent.prototype.jsonCall = function (jsonUrl) {
-        this.httpService.getJson(jsonUrl);
+    HttpService.prototype.getJson = function (jsonUrl) {
+        var _this = this;
+        console.log('URL: ' + jsonUrl);
+        this.http.get(jsonUrl).subscribe(function (results) { return _this.results = results; }, function (err) { return console.log(err); }, function () { return console.log(_this.results); });
+        console.log();
     };
-    AppComponent.prototype.ngOnInit = function () {
-        console.log('started');
-        this.httpService.getJson(this.testUrl);
-    };
-    AppComponent = __decorate([
-        core_1.Component({
-            selector: 'my-app',
-            template: "\n    <h1>My First Angular App</h1>\n    <input #inputJson id=\"inputJson\"><button class=\"btn\" (click)=\"jsonCall(inputJson.value)\">GET</button>\n  "
-        }), 
-        __metadata('design:paramtypes', [http_service_1.HttpService])
-    ], AppComponent);
-    return AppComponent;
+    HttpService = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [http_1.Http])
+    ], HttpService);
+    return HttpService;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.HttpService = HttpService;
+//# sourceMappingURL=http.service.js.map
